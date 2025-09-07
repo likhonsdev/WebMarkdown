@@ -26,9 +26,15 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme") as Theme;
+      if (stored) return stored;
+
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "dark";
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
