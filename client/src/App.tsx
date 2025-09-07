@@ -4,9 +4,11 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/contexts/theme-context";
-import { Sidebar } from "@/components/layout/sidebar";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Moon, Sun, BarChart3 } from "lucide-react";
+import { useTheme } from "@/contexts/theme-context";
 import Dashboard from "@/pages/dashboard";
 import UrlConverter from "@/pages/url-converter";
 import ServerManagement from "@/pages/server-management";
@@ -14,6 +16,7 @@ import Resources from "@/pages/resources";
 import Logs from "@/pages/logs";
 import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
+import { Link, useLocation } from "wouter";
 import type { ServerStatus } from "@shared/schema";
 
 function AppContent() {
@@ -23,6 +26,8 @@ function AppContent() {
   });
   
   const status = statusResponse?.data;
+  const [location] = useLocation();
+  const { theme, setTheme } = useTheme();
 
   const defaultStatus: ServerStatus = {
     protocolStatus: 'inactive',
@@ -50,13 +55,41 @@ function AppContent() {
     },
   });
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
-    <div className="min-h-screen flex bg-background">
-      <Sidebar serverStatus={status || defaultStatus} />
+    <div className="min-h-screen bg-background">
+      {/* Simple header for non-converter pages */}
+      {location !== "/" && (
+        <div className="border-b border-border">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <Link href="/" className="text-lg font-semibold">
+              URL to Markdown
+            </Link>
+            <div className="flex items-center gap-2">
+              <Link href="/dashboard">
+                <Button variant="ghost" size="sm">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Dashboard
+                </Button>
+              </Link>
+              <Button variant="ghost" size="icon" onClick={toggleTheme}>
+                {theme === "dark" ? (
+                  <Sun className="w-4 h-4" />
+                ) : (
+                  <Moon className="w-4 h-4" />
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       
       <Switch>
-        <Route path="/" component={Dashboard} />
-        <Route path="/url-converter" component={UrlConverter} />
+        <Route path="/" component={UrlConverter} />
+        <Route path="/dashboard" component={Dashboard} />
         <Route path="/server-management" component={ServerManagement} />
         <Route path="/resources" component={Resources} />
         <Route path="/logs" component={Logs} />
