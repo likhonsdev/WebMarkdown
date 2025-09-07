@@ -1,4 +1,3 @@
-
 #!/usr/bin/env node
 
 import { McpTransport } from "./services/mcp/transport.js";
