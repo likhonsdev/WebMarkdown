@@ -50,11 +50,13 @@ export default function Dashboard() {
             </p>
           </div>
 
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <StatsCards stats={stats || null} isLoading={statsLoading} />
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
+          {/* Server Status and Quick Converter */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <div className="xl:col-span-2 space-y-4 sm:space-y-6">
               <UrlConverterCard />
             </div>
@@ -67,6 +69,7 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Activity Logs */}
           <div className="w-full">
             <ActivityLogs />
           </div>
