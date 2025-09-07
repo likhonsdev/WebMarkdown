@@ -49,6 +49,15 @@ A modern, full-stack web application that converts web pages to clean Markdown f
 4. **Open your browser**
    Navigate to `http://localhost:5000`
 
+### 🌐 Live Demo
+
+Try the live demo on Replit: [WebMarkdown Demo](https://replit.com/@likhonsdev/WebMarkdown)
+
+**Example URLs to test:**
+- `https://github.com/microsoft/TypeScript` - GitHub repository
+- `https://docs.github.com/en/get-started` - Documentation page
+- `https://blog.github.com/2024-01-01-example-post` - Blog article
+
 ## 🏗️ Architecture
 
 ### Frontend
@@ -102,6 +111,42 @@ Add to your `claude_desktop_config.json`:
 ```
 
 For detailed examples, see [MCP_USAGE_EXAMPLES.md](./MCP_USAGE_EXAMPLES.md).
+
+## 🚀 Example Usage
+
+### Web Interface
+
+1. **Simple Conversion**:
+   - Enter URL: `https://github.com/microsoft/TypeScript`
+   - Click "Convert to Markdown"
+   - Copy the generated markdown
+
+2. **Advanced Options**:
+   - Enable "Clean HTML" for better content extraction
+   - Disable "Include Images" for text-only conversion
+
+### API Usage
+
+```bash
+# Convert a URL to markdown
+curl -X POST http://localhost:5000/api/convert \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/article", "includeImages": true, "cleanHtml": false}'
+
+# Get server statistics
+curl http://localhost:5000/api/stats
+
+# Check server status
+curl http://localhost:5000/api/status
+```
+
+### AI Integration Examples
+
+```
+"Convert this documentation to markdown: https://docs.example.com/guide"
+"Get server statistics and recent conversions"
+"Show me the conversion status for ID abc123"
+```
 
 ## 📡 API Endpoints
 

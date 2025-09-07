@@ -97,12 +97,7 @@ export function ActivityLogs() {
         </div>
 
         <div className="space-y-3" data-testid="activity-logs-container">
-          {!logsList || logsList.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground" data-testid="no-logs-message">
-              No recent activity
-            </div>
-          ) : (
-            logsList.slice(0, 5).map((log, index) => (
+          {logsList.slice(0, 5).map((log, index) => (
               <div
                 key={log.id}
                 className={cn(getLogClassName(log.type), "border-l-4 pl-3 py-1")}
@@ -118,7 +113,7 @@ export function ActivityLogs() {
                 </div>
               </div>
             ))
-          )}
+          }
         </div>
 
         <div className="mt-4 text-center text-sm text-muted-foreground">
