@@ -1,0 +1,73 @@
+
+# URL to Markdown Converter - MCP Server
+
+## Project Overview
+
+This is a full-stack web application that provides URL to Markdown conversion services through a Model Context Protocol (MCP) server. The application features a React frontend with shadcn/ui components and an Express.js backend that integrates with the MCP SDK.
+
+## Architecture
+
+### Frontend (React + TypeScript)
+- **Framework**: React 18 with TypeScript, built with Vite
+- **UI Library**: shadcn/ui components based on Radix UI primitives
+- **Styling**: Tailwind CSS with custom design system
+- **State Management**: TanStack Query for server state
+- **Routing**: Wouter for lightweight client-side routing
+- **Theme**: Custom theme system with dark/light mode support
+
+### Backend (Express + TypeScript)
+- **Framework**: Express.js with TypeScript
+- **Protocol**: MCP (Model Context Protocol) SDK integration
+- **Transport**: Dual WebSocket and HTTP transport support
+- **Storage**: Drizzle ORM with PostgreSQL (Neon Database)
+- **Services**: URL conversion, rate limiting, logging
+
+### Key Features
+- URL to Markdown conversion using Mozilla Readability
+- Real-time WebSocket communication
+- MCP tools, resources, and prompts
+- Activity logging and server monitoring
+- Rate limiting and error handling
+- Dark/light theme support
+- Responsive design
+
+### File Structure
+```
+client/src/
+├── components/
+│   ├── dashboard/ - Dashboard-specific components
+│   ├── layout/ - Layout components (header, footer, sidebar)
+│   └── ui/ - Reusable UI components (shadcn/ui)
+├── contexts/ - React contexts (theme)
+├── hooks/ - Custom React hooks
+├── lib/ - Utility functions and configurations
+├── pages/ - Page components
+└── App.tsx - Main app component
+
+server/
+├── services/ - Business logic services
+│   ├── mcp/ - MCP protocol implementation
+│   ├── logger.ts - Logging service
+│   ├── rate-limiter.ts - Rate limiting
+│   └── url-converter.ts - URL conversion logic
+├── index.ts - Main server entry point
+├── routes.ts - API routes
+├── storage.ts - Database abstraction
+└── vite.ts - Vite development setup
+```
+
+### Tech Stack
+- **Frontend**: React, TypeScript, Vite, TailwindCSS, shadcn/ui
+- **Backend**: Express.js, TypeScript, MCP SDK
+- **Database**: PostgreSQL with Drizzle ORM
+- **Real-time**: WebSocket (ws library)
+- **Content Processing**: Mozilla Readability, Turndown, JSDOM
+
+### Development Commands
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run mcp:stdio` - Run MCP server in stdio mode
+- `npm run db:generate` - Generate database migrations
+- `npm run db:migrate` - Run database migrations
+
+This application serves as both a web interface and an MCP server that can be integrated with AI assistants and other tools.
