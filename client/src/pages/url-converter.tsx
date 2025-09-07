@@ -11,16 +11,17 @@ import { Moon, Sun, BarChart3 } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { Link } from "wouter";
 import type { ConversionRequest } from "@shared/schema";
+import { Copy } from "lucide-react";
 
 export default function UrlConverter() {
   const [url, setUrl] = useState("");
   const [includeImages, setIncludeImages] = useState(true);
   const [cleanHtml, setCleanHtml] = useState(false);
   const [result, setResult] = useState<string | null>(null);
-  
+
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
-  
+
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
@@ -75,12 +76,22 @@ export default function UrlConverter() {
     });
   };
 
+  const handleCopy = () => {
+    if (result) {
+      navigator.clipboard.writeText(result);
+      toast({
+        title: "Copied to clipboard",
+        description: "Markdown has been successfully copied.",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Simple header */}
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-lg font-semibold">URL to Markdown</h1>
+          <h1 className="text-lg font-semibold">URL to Markdown Converter</h1>
           <div className="flex items-center gap-2">
             <Link href="/dashboard">
               <Button variant="ghost" size="sm">
@@ -98,7 +109,7 @@ export default function UrlConverter() {
           </div>
         </div>
       </div>
-      
+
       {/* Main content */}
       <div className="flex flex-col items-center justify-start p-6">
         <div className="max-w-2xl w-full space-y-8">
@@ -112,63 +123,69 @@ export default function UrlConverter() {
           </p>
         </div>
 
-        {/* Converter Form */}
-        <form onSubmit={handleSubmit} className="space-y-4" data-testid="form-url-conversion">
-          <div>
-            <Label htmlFor="url-input" className="text-sm font-medium">
-              Please enter the URL of a web page
-            </Label>
-            <Input
-              id="url-input"
-              type="url"
-              placeholder="https://example.com/article"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              disabled={convertMutation.isPending}
-              className="mt-2"
-              data-testid="input-url"
-            />
-          </div>
-          
-          <div className="flex gap-6">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="include-images"
-                checked={includeImages}
-                onCheckedChange={(checked) => setIncludeImages(checked as boolean)}
-                data-testid="checkbox-include-images"
+        {/* Form */}
+        <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-6" data-testid="conversion-form">
+            <div className="space-y-2">
+              <Label htmlFor="url" className="text-sm font-medium">Website URL</Label>
+              <Input
+                id="url"
+                type="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://example.com"
+                required
+                className="w-full border-2 focus:border-primary transition-colors"
+                data-testid="input-url"
               />
-              <Label htmlFor="include-images" className="text-sm">
-                Include Images
-              </Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="clean-html"
-                checked={cleanHtml}
-                onCheckedChange={(checked) => setCleanHtml(checked as boolean)}
-                data-testid="checkbox-clean-html"
-              />
-              <Label htmlFor="clean-html" className="text-sm">
-                Clean / Filter
-              </Label>
-            </div>
-          </div>
 
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={convertMutation.isPending}
-            data-testid="button-convert"
-          >
-            {convertMutation.isPending ? "Converting..." : "Convert to Markdown"}
-          </Button>
-        </form>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center space-x-2 p-3 rounded-lg border border-border bg-muted/50">
+                <Checkbox
+                  id="includeImages"
+                  checked={includeImages}
+                  onCheckedChange={(checked) => setIncludeImages(checked as boolean)}
+                  data-testid="checkbox-include-images"
+                />
+                <Label htmlFor="includeImages" className="text-sm cursor-pointer font-medium">
+                  Include images
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-2 p-3 rounded-lg border border-border bg-muted/50">
+                <Checkbox
+                  id="cleanHtml"
+                  checked={cleanHtml}
+                  onCheckedChange={(checked) => setCleanHtml(checked as boolean)}
+                  data-testid="checkbox-clean-html"
+                />
+                <Label htmlFor="cleanHtml" className="text-sm cursor-pointer font-medium">
+                  Clean HTML (Readability)
+                </Label>
+              </div>
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full h-12 text-base font-semibold" 
+              disabled={convertMutation.isPending}
+              data-testid="button-convert"
+            >
+              {convertMutation.isPending ? "Converting..." : "Convert to Markdown"}
+            </Button>
+          </form>
+        </div>
 
         {/* Results */}
         {result && (
           <div className="space-y-4" data-testid="conversion-result">
-            <Label className="text-sm font-medium">Output Markdown</Label>
+            <div className="flex justify-between items-center">
+              <Label className="text-sm font-medium">Output Markdown</Label>
+              <Button variant="ghost" size="sm" onClick={handleCopy} aria-label="Copy markdown">
+                <Copy className="w-4 h-4 mr-1" /> Copy
+              </Button>
+            </div>
             <Textarea
               value={result}
               readOnly
