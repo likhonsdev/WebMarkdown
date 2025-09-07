@@ -1,5 +1,4 @@
 import { ExternalLink, Heart, Code } from "lucide-react";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
 export function Footer() {
@@ -28,24 +27,24 @@ export function Footer() {
             <h4 className="text-sm font-medium">Navigation</h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li>
-                <Link href="/dashboard" className="hover:text-foreground transition-colors hover:underline">
+                <a href="/dashboard" className="hover:text-foreground transition-colors hover:underline">
                   Dashboard
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/logs" className="hover:text-foreground transition-colors hover:underline">
+                <a href="/logs" className="hover:text-foreground transition-colors hover:underline">
                   Activity Logs
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/settings" className="hover:text-foreground transition-colors hover:underline">
+                <a href="/settings" className="hover:text-foreground transition-colors hover:underline">
                   Settings
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/resources" className="hover:text-foreground transition-colors hover:underline">
+                <a href="/resources" className="hover:text-foreground transition-colors hover:underline">
                   Resources
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
