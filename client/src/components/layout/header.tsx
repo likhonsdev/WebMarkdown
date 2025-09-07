@@ -29,9 +29,9 @@ export function Header({ title, description, onRefresh, isLoading }: HeaderProps
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleTheme}
             data-testid="button-theme-toggle"
           >
@@ -42,7 +42,7 @@ export function Header({ title, description, onRefresh, isLoading }: HeaderProps
             )}
           </Button>
           {onRefresh && (
-            <Button 
+            <Button
               onClick={onRefresh}
               disabled={isLoading}
               data-testid="button-refresh"

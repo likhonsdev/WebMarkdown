@@ -1,5 +1,5 @@
 import { Activity } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import type { ActivityLog } from "@shared/schema";
@@ -62,6 +62,27 @@ export function ActivityLogs() {
     );
   }
 
+  // Ensure logs is always an array
+  const logsList = Array.isArray(logs) ? logs : [];
+
+  if (!logsList || logsList.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="w-4 h-4" />
+            Recent Activity
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-sm text-muted-foreground text-center py-4">
+            No recent activity
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardContent className="p-6">
@@ -76,15 +97,10 @@ export function ActivityLogs() {
         </div>
 
         <div className="space-y-3" data-testid="activity-logs-container">
-          {!logs || logs.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground" data-testid="no-logs-message">
-              No recent activity
-            </div>
-          ) : (
-            logs.slice(0, 5).map((log, index) => (
+          {logsList.slice(0, 5).map((log, index) => (
               <div
                 key={log.id}
-                className={getLogClassName(log.type)}
+                className={cn(getLogClassName(log.type), "border-l-4 pl-3 py-1")}
                 data-testid={`log-entry-${log.type}`}
               >
                 <div className="flex items-center justify-between">
@@ -97,7 +113,7 @@ export function ActivityLogs() {
                 </div>
               </div>
             ))
-          )}
+          }
         </div>
 
         <div className="mt-4 text-center text-sm text-muted-foreground">
