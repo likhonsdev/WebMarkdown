@@ -81,7 +81,7 @@ export function ActivityLogs() {
               No recent activity
             </div>
           ) : (
-            Array.isArray(logs) ? logs.slice(0, 5).map((log, index) => (
+            logs.slice(0, 5).map((log, index) => (
               <div
                 key={log.id}
                 className={getLogClassName(log.type)}
@@ -96,7 +96,7 @@ export function ActivityLogs() {
                   </span>
                 </div>
               </div>
-            )) : null
+            ))
           )}
         </div>
 
