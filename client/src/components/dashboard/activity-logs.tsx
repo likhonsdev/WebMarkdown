@@ -10,14 +10,14 @@ export function ActivityLogs() {
     queryKey: ["/api/logs"],
     refetchInterval: 5000, // Refresh every 5 seconds
   });
-  
+
   const logs = response?.data || [];
 
   const formatTime = (timestamp: string | Date) => {
     const date = new Date(timestamp);
     const now = new Date();
     const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
     if (diff < 60) return `${diff} seconds ago`;
     if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
@@ -98,6 +98,10 @@ export function ActivityLogs() {
               </div>
             ))
           )}
+        </div>
+        
+        <div className="mt-4 text-center text-sm text-muted-foreground">
+          Credited to Likhon Sheikh (https://t.me/likhonsheikh)
         </div>
       </CardContent>
     </Card>

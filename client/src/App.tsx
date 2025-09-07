@@ -18,13 +18,14 @@ import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 import { Link, useLocation } from "wouter";
 import type { ServerStatus } from "@shared/schema";
+import { Footer } from "./components/layout/footer";
 
 function AppContent() {
   const { data: statusResponse } = useQuery<{data: ServerStatus}>({
     queryKey: ["/api/status"],
     refetchInterval: 5000,
   });
-  
+
   const status = statusResponse?.data;
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
@@ -60,7 +61,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Simple header for non-converter pages */}
       {location !== "/" && (
         <div className="border-b border-border">
@@ -86,16 +87,19 @@ function AppContent() {
           </div>
         </div>
       )}
-      
-      <Switch>
-        <Route path="/" component={UrlConverter} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/server-management" component={ServerManagement} />
-        <Route path="/resources" component={Resources} />
-        <Route path="/logs" component={Logs} />
-        <Route path="/settings" component={Settings} />
-        <Route component={NotFound} />
-      </Switch>
+
+      <div className="flex-1">
+        <Switch>
+          <Route path="/" component={UrlConverter} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/server-management" component={ServerManagement} />
+          <Route path="/resources" component={Resources} />
+          <Route path="/logs" component={Logs} />
+          <Route path="/settings" component={Settings} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+      <Footer />
     </div>
   );
 }
