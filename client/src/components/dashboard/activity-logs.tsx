@@ -81,7 +81,7 @@ export function ActivityLogs() {
               No recent activity
             </div>
           ) : (
-            logs.slice(0, 5).map((log) => (
+            Array.isArray(logs) ? logs.slice(0, 5).map((log, index) => (
               <div
                 key={log.id}
                 className={getLogClassName(log.type)}
@@ -96,10 +96,10 @@ export function ActivityLogs() {
                   </span>
                 </div>
               </div>
-            ))
+            )) : null
           )}
         </div>
-        
+
         <div className="mt-4 text-center text-sm text-muted-foreground">
           Credited to Likhon Sheikh (https://t.me/likhonsheikh)
         </div>
